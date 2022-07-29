@@ -98,7 +98,7 @@ fun BuildSearchActivity(context: Context,dictionaryListViewModel:DictionaryListV
                 )
                 Column(
                     modifier = Modifier
-                        .height(300.dp)
+                        .height(250.dp)
                         .fillMaxWidth()
                         .padding(10.dp)
                         .verticalScroll(rememberScrollState())
@@ -106,12 +106,22 @@ fun BuildSearchActivity(context: Context,dictionaryListViewModel:DictionaryListV
                     if(loading.value) {
                         var tinyDB = TinyDB(context)
                         var list = tinyDB.getListString("recentSearch")
+                        list.reverse()
                         Log.d("searchedItem", list.toString())
-                        list.iterator().forEach {
-                            RecentSearchResult(
-                                word = it,
-                                context = context
-                            )
+                        if (list.size >= 6) {
+                            list.subList(0, 5).iterator().forEach {
+                                RecentSearchResult(
+                                    word = it,
+                                    context = context
+                                )
+                            }
+                        }else{
+                            list.iterator().forEach {
+                                RecentSearchResult(
+                                    word = it,
+                                    context = context
+                                )
+                            }
                         }
                     }
 
